@@ -1,0 +1,78 @@
+#myProgress {
+    width: 100%;
+    background-color: grey;
+}
+  
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
+}
+
+.r20-importer {
+    color: darkred;
+    font-size: 18px;
+}
+
+#r20importer {
+    text-align: center;
+    width: 500px!important;
+    min-height: 600px;
+    font-size: 16px
+}
+
+.r20-importer {
+    font-size: 18px;
+}
+
+.r20-importer.header {
+    width: auto
+}
+
+.import-json {
+    border: 2px solid;
+    padding: 10px; padding-left: 30px; padding-right: 30px;
+    border-radius:5px
+}
+
+.r20-importer.import-zip {
+    border: 2px solid;
+    border-collapse: collapse;
+    padding: 10px; padding-left: 30px; padding-right: 30px;
+    border-radius:5px
+}
+
+#import-zip-div-inner {
+    border: 2px solid;
+    margin-top: 10px; margin-bottom: 10px;
+    padding: 10px; padding-left: 30px; padding-right: 30px;
+    border-radius:5px
+}
+
+#import-type-div-inner {
+    border: 2px solid;
+    margin-top: 10px; margin-bottom: 10px;
+    padding: 10px; padding-left: 30px; padding-right: 30px;
+    border-radius:5px
+}
+
+.import-other {
+    border: 2px solid;
+    padding: 10px; padding-left: 30px; padding-right: 30px;
+    border-radius:5px
+}
+
+
+.import-zip.select {
+    background: #ffffff91
+}
+
+.import.text-input {
+    background: #ffffff91;
+    border-radius: 5px;
+}
+
+.import-hint {
+    font-size: 13px;
+    font-style: italic;
+}
