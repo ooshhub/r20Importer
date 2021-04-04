@@ -1,0 +1,25 @@
+0.7:
+DONE - Fix menu
+DONE - Move 5e character processes to 5eOGL module
+DONE - Insert default "just grab r20 attribs" function into main importer module 
+DONE - Grab scene order from campaign object, re-order with cleanup phase functino
+
+0.8:
+DONE - Landing page while importing
+DONE - Progress bar
+
+0.9:
+Include audio (may only be for exporter) - Kakaroto code?
+Fix CORS issue, use kakaroto's code ==> JSON schema version move to 0.7
+Compendium packs => menu setting instead of static
+
+
+1.0
+DONE - rape.gif
+Macros => process Queries, templates etc. ??? might give up on this
+Readme
+handlbar helper for tooltips
+tooltips
+
+
+
