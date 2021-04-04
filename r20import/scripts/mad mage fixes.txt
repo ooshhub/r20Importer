@@ -1,0 +1,22 @@
+TOKENS:
+    DONE? - fix vision 
+    DONE - fix HP for unlinked TOKENS
+    DONE - default  tokens wrong size - Roll 20 issue
+
+
+CHARACTERS:
+    - 
+
+
+SCENES:
+    DONE - order of scenes - use attributes.placement number
+
+
+TILES: 
+    DONE - low res images are being downloaded
+    - exploring .... map pin
+
+
+WALLS:
+    - secret door colour: #00ff00
+    - regular door colour: #ff9900

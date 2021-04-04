@@ -1,0 +1,42 @@
+<form id="import-window" class={{cssClass}} autocomplete="off" onsubmit="ev.preventDefault();">
+    <div class="r20-importer header">
+        <h1>Roll20 JSON & Image Importer</h1>
+    </div>
+    <div class="r20-importer body">
+        <div class="import-json file-select">
+            <label for="import-file">Select a JSON Campaign file to import:</label>
+                <input type="file" name="import-file" id="import-json" accept=".json" class="import-file">
+        </div>
+        <hr>
+        <div class="r20-importer import-images">
+            <div class="import-image-type toggle">
+                <label for="import-image-type">Image links as</label>
+                    <select id="import-image-type" name="imageSelect" class="import-select">
+                        {{selectOptions select.type.choices selected=select.type.value}}
+                    </select>
+            </div>
+            <div id="import-type-div" class="import-type" style="display: {{settings.typeDisplay}}">
+                <hr>
+                <div id="import-type-div-inner">
+                    <label for="import-image-path">Path where images are stored: </label>
+                    <input type="text" id="import-image-path" value="{{settings.imagePath}}" class="import text-input">
+                    <span class="import-hint">(relative to Foundry VTT ./data/ root folder)</span>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="r20-importer import-other">
+            <div id="import-other-options" class="import-options">
+                <label for="import-5eogl" class="import-label">Enabled R20 5eOGL options: </label>
+                <select id="import-5eogl" class="import-select" name="5eoglSelect">
+                    {{selectOptions select.ogl5e.choices selected=select.ogl5e.value}}
+                </select>
+                <br><span id="ogl5eSupport" class="import-hint ogl5e">No campaign selected.</span>
+            </div>
+        </div>
+        <hr>
+        <div class="r20-importer start-import"></div>
+            <button id="import-start-button" class="import-button" disabled>No Campaign selected...</button>
+        </div>
+    </div>
+</form>
