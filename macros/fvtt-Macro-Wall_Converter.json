@@ -1,0 +1,22 @@
+{
+  "_id": "9j9vXNk8jxm3rsU0",
+  "name": "Wall Converter",
+  "type": "script",
+  "sort": 100001,
+  "flags": {
+    "combat-utility-belt": {
+      "macroTrigger": ""
+    },
+    "exportSource": {
+      "world": "5eImp",
+      "system": "dnd5e",
+      "coreVersion": "0.7.9",
+      "systemVersion": "1.2.4"
+    }
+  },
+  "scope": "global",
+  "command": "const createMenu = (() => {\n\n    let availableStrokes = [];\n\n    canvas.scene.data.walls.forEach(w=>{\n        if (w.flags.r20color && /#[A-Fa-f0-9]{6}/.test(w.flags.r20color)) {\n            let squareStyle = `color: ${w.flags.r20color}; font-size: 16px; vertical-align:middle; `\n            let newOption = `<option style=\"color:${w.flags.r20color}\" value=\"${w.flags.r20color}\">${w.flags.r20color}</option>`\n            if (!availableStrokes.includes(newOption)) availableStrokes.push(newOption);\n        }\n    });\n\n    let wallDialog = new Dialog({\n        title: \"Wall Converter\",\n        content: \n            `<div id=\"wall-converter\" style=\"line-height:200%\">\n                <div id=\"wall-converter-stroke\">\n                    <span>Convert this colour:      </span><select id=\"wall-converter-stroke-select\" style=\"float:right\">\n                        ${availableStrokes}\n                    </select>\n                </div>\n                <hr>\n                <div id=\"wall-converter-walltype\">\n                    <span>to: </span><select id=\"wall-converter-walltype-select\" style=\"float:right\">\n                        <option value=\"0\">Normal Wall</option>\n                        <option value=\"1\">Door</option>\n                        <option value=\"2\">Secret Door</option>\n                    </select>\n                </div>\n                <hr>\n            </div>`,\n        buttons: {            \n            one: {\n                icon: '<i class=\"fas fa-check\"></i>',\n                label: \"Convert current scene\",\n                callback: () => {\n                    if (canvas.scene) wallConverter(false);\n                    else alert('No active scene!');\n                }\n            },\n            two: {\n                icon: '<i class=\"fas fa-times\"></i>',\n                label: \"Convert all scenes\",\n                callback: () => wallConverter(true)\n            }\n        },\n        default: \"One\",\n        render: () => {},\n        close: () => {}\n    });\n    wallDialog.render(true);\n})();\n\nconst wallConverter = async (allScenes=false) => {\n\n\tlet counter = {\n\t\tscenes: 0,\n\t\tsuccess: 0,\n\t\terror: 0,\n\t\tall: 0,\n\t}\n\n\tconst processWalls = async (scene) => {\n\t\tawait Promise.all(scene.data.walls.map(async (w) => {\n\t\t\tlet nW = duplicate(w);\n\t\t\tif (w.flags?.r20color) {\n\t\t\t\tif (w.flags?.r20color === stroke) {\n\t\t\t\t\tnW.door = wallType;\n\t\t\t\t\tcounter.success ++;\n\t\t\t\t}\n\t\t\t} else counter.error ++;\n\t\t\tcounter.all ++;\n\t\t\treturn nW;\n\t\t})).then((arr) => {\n\t\t\tscene.update({walls: arr});\n\t\t});\n\t}\n\n\tlet wallType = document.getElementById('wall-converter-walltype-select').value;\n\tlet stroke = document.getElementById('wall-converter-stroke-select').value;\n\tif (!wallType || !/#[A-Za-z0-9]{6}/.test(stroke)) alert(`Input error - select a wall and use a valid #fff000 colour hex`);\n\telse {\n\t\tui.notifications.info(`Converting ${allScenes ? 'all scenes' : 'active scene'}: colour ${stroke} ==> ${wallType === 0 ? 'wall' : wallType === 1 ? 'door' : 'secret'}`);\n\t\tif (allScenes) {\n\t\t\tawait Promise.all(game.scenes.entities.map(async (s) => {\n\t\t\t\tawait processWalls(s);\n\t\t\t\tcounter.scenes ++;\n\t\t\t}));\n\t\t} else {\n\t\t\tawait processWalls(canvas.scene);\n\t\t}\n\t}\n\talert(`Walls processed: ${counter.all}\\nWalls converted: ${counter.success}\\nErrors: ${counter.error}`);\n}",
+  "author": "9TEopVTGkv2gjvAn",
+  "img": "icons/svg/door-steel.svg",
+  "actorIds": []
+}

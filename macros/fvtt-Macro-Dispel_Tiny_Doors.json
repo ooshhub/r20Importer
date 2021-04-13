@@ -1,0 +1,22 @@
+{
+  "_id": "rCOaRcECinxPFknK",
+  "name": "Dispel Tiny Doors",
+  "type": "script",
+  "sort": 100001,
+  "flags": {
+    "combat-utility-belt": {
+      "macroTrigger": ""
+    },
+    "exportSource": {
+      "world": "5eImp",
+      "system": "dnd5e",
+      "coreVersion": "0.7.9",
+      "systemVersion": "1.2.4"
+    }
+  },
+  "scope": "global",
+  "command": "let wallDialog = new Dialog({\n\ttitle: \"Wall Converter\",\n\tcontent: \n\t\t`<div id=\"wall-length-input-div\" style=\"line-height:200%\"><span>Max wall length to convert (pixels): </span><input type=\"number\" value=\"35\" id=\"wall-length-input\" style=\"float:right; display:inline; margin-left: 10px; width: 100px\"/><hr>`,\n\tbuttons: {            \n\t\tone: {\n\t\t\ticon: '<i class=\"fas fa-check\"></i>',\n\t\t\tlabel: \"Convert current scene\",\n\t\t\tcallback: () => {\n\t\t\t\tif (canvas.scene) wallConverter(false);\n\t\t\t\telse alert('No active scene!');\n\t\t\t}\n\t\t},\n\t\ttwo: {\n\t\t\ticon: '<i class=\"fas fa-times\"></i>',\n\t\t\tlabel: \"Convert all scenes\",\n\t\t\tcallback: () => wallConverter(true)\n\t\t}\n\t},\n\t//default: \"Progress\",\n\trender: () => {},\n\tclose: () => {}\n});\nwallDialog.render(true);\n\nconst wallConverter = async (allScenes=false) => {\n\n\tlet maxLength = document.getElementById('wall-length-input').value;\n\n\tlet counter = {\n\t\tscenes: 0,\n\t\tsuccess: 0,\n\t\terror: 0,\n\t\tall: 0,\n\t}\n\n\tconst processWalls = async (scene) => {\n\t\tawait Promise.all(scene.data.walls.map(async (wall) => {\n\t\t\tlet x = wall.c[0] - wall.c[2];\n\t\t\tlet y = wall.c[1] - wall.c[3];\n\t\t\tlet length = Math.sqrt(x*x + y*y);\n\n\t\t\tlet newWall = duplicate(wall);\n\t\t\tif (wall.door !== 0 && length < maxLength) {\n\t\t\t\tnewWall.door = 0;\n\t\t\t\tcounter.success ++;\n\t\t\t}\n\t\t\tcounter.all ++;\n\t\t\treturn newWall;\n\t\t})).then((arr) => {\n\t\t\tscene.update({walls: arr});\n\t\t});\n\t}\n\n\tif (!maxLength || isNaN(maxLength)) return ui.notification.error(`Max wall length must be an integer`);\n\telse {\n\t\tui.notifications.info(`Converting ${allScenes ? 'all scenes' : 'active scene'}: doors & secret doors of ${maxLength} or less will be converted to walls`);\n\t\tif (allScenes) {\n\t\t\tawait Promise.all(game.scenes.entities.map(async (s) => {\n\t\t\t\tawait processWalls(s);\n\t\t\t\tcounter.scenes ++;\n\t\t\t}));\n\t\t} else {\n\t\t\tawait processWalls(canvas.scene);\n\t\t}\n\t}\n\talert(`Walls processed: ${counter.all}\\nWalls converted: ${counter.success}\\nErrors: ${counter.error}`);\n}",
+  "author": "9TEopVTGkv2gjvAn",
+  "img": "icons/svg/door-exit.svg",
+  "actorIds": []
+}

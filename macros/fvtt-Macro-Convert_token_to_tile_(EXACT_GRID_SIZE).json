@@ -1,0 +1,22 @@
+{
+  "_id": "rCNkKKDhDkfrDdru",
+  "name": "Convert token to tile (EXACT GRID SIZE)",
+  "type": "script",
+  "sort": 400000,
+  "flags": {
+    "core": {
+      "sourceId": "Macro.efs4wBZRTDVg8mNc"
+    },
+    "exportSource": {
+      "world": "5eImp",
+      "system": "dnd5e",
+      "coreVersion": "0.7.9",
+      "systemVersion": "1.2.4"
+    }
+  },
+  "scope": "global",
+  "command": "let selected = canvas.tokens.controlled;\nlet zMax = Math.max(...canvas.tiles.objects.children.map(t=>t.data.z))\n\nif (selected.length) {\n    for (let i=0; i<selected.length; i++) {\n        let tokData = selected[i].data;\n        let pps = canvas.dimensions.size;\n\n        let origWidth = selected[i].texture?.orig?.width||null;\n        let origHeight = selected[i].texture?.orig?.height ||null;\n        let offsetX = (origWidth - tokData.width*pps) || 0;\n        let offsetY = (origHeight - tokData.height*pps) || 0;\n        console.log(origWidth, offsetX, origHeight, offsetY);\n\n        if (tokData && pps) {\n            let newData = {\n                img: tokData.img,\n                width: tokData.width*pps || origWidth,\n                height: tokData.height*pps || origHeight,\n                scale: tokData.scale,\n                x: tokData.x,\n                y: tokData.y,\n                z: (!isNaN(zMax)) ? zMax + 10 : '',\n                rotation: tokData.rotation,\n                hidden: tokData.hidden,\n                locked: false,\n            }\n            if (!newData.img || !newData.width || !newData.height) {\n                console.error(`Bad token data: `,tokData);            \n            } else {\n                let newTile = Tile.create(newData);\n                if (newTile) selected[i].delete();\n                console.log(`New tile created with id: ${newTile.id}`)\n            }\n        }\n    }\n}",
+  "author": "9TEopVTGkv2gjvAn",
+  "img": "icons/svg/ruins.svg",
+  "actorIds": []
+}
